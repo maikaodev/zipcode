@@ -1,0 +1,14 @@
+.social_media_menu {
+}
+.social_media_list {
+  padding: 0;
+
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+
+  list-style: none;
+
+  font-weight: bold;
+}
