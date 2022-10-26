@@ -2,6 +2,8 @@
 
 # Upgrades
 
-- [ ] -> Responsiveness
+- [ ] -> Responsive 
 - [ ] -> Icons
-- [ ] -> API(serverless)
+- [x] -> API(serverless)
+- [ ] -> Modal
+- [ ] -> CSS
