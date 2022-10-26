@@ -59,3 +59,9 @@
 
   font-weight: bold;
 }
+
+@media (min-width: 768px) {
+  .content {
+    width: 500px;
+  }
+}
