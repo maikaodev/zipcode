@@ -1,5 +1,6 @@
 // Import - Functions
 import { useState, useRef } from "react";
+import Head from "next/head";
 
 // Import - CSS
 import styles from "../styles/Home.module.css";
@@ -65,30 +66,42 @@ export default function Home() {
   };
 
   return (
-    <section className={styles.content}>
-      {messageModal ? <h1>{messageModal}</h1> : null}
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <input
-          ref={input}
-          type="text"
-          id="zipcode"
-          name="zipcode"
-          placeholder="Ex.: 12345-678"
+    <>
+      <Head>
+        <title>Zipcode | Localizar endereço</title>
+        <meta
+          name="keywords"
+          content="CEP, Localizar endereço, Zipcode, Localizar cep"
         />
-        <button type="submit">Buscar CEP</button>
-      </form>
-      <div>
-        {/* Its true? Show the data */}
+        <meta name="description" content="Localize o endereço" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+      <section className={styles.content}>
+        {messageModal ? <h1>{messageModal}</h1> : null}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            ref={input}
+            type="text"
+            id="zipcode"
+            name="zipcode"
+            placeholder="Ex.: 12345-678"
+          />
+          <button type="submit">Buscar CEP</button>
+        </form>
+        <div>
+          {/* Its true? Show the data */}
 
-        {dataAddress ? (
-          <ul className={styles.list_response}>
-            <li>CEP: {dataAddress.cep}</li>
-            <li>Estado: {dataAddress.localidade}</li>
-            <li>Cidade: {dataAddress.uf}</li>
-            <li>Logradouro: {dataAddress.logradouro}</li>
-          </ul>
-        ) : null}
-      </div>
-    </section>
+          {dataAddress ? (
+            <ul className={styles.list_response}>
+              <li>CEP: {dataAddress.cep}</li>
+              <li>Estado: {dataAddress.localidade}</li>
+              <li>Cidade: {dataAddress.uf}</li>
+              <li>Logradouro: {dataAddress.logradouro}</li>
+            </ul>
+          ) : null}
+        </div>
+      </section>
+    </>
   );
 }
