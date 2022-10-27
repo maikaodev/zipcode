@@ -7,4 +7,4 @@
 - [x] -> API(serverless)
 - [ ] -> Modal
 - [ ] -> CSS
-- [ ] -> Meta tags
+- [x] -> Meta tags
