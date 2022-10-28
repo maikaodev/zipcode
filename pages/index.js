@@ -38,7 +38,7 @@ export default function Home() {
     }
 
     const response = await fetch(
-      `https://findyouraddress.netlify.app/api/zipcode/${zipcode}`
+      `https://encontreseuendereco.netlify.app/api/zipcode/${zipcode}`
     );
 
     const data = await response.json();
