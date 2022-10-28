@@ -1,5 +1,5 @@
 // Import - Functions
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 
 // Import - CSS
@@ -9,31 +9,26 @@ export default function Home() {
   // Hooks
 
   // states
-  const [dataAddress, setDataAddress] = useState();
+  const [dataAddress, setDataAddress] = useState([]);
   const [messageModal, setMessageModal] = useState("");
 
   // ref
   const input = useRef();
 
-  // Hooks
+  // Hooks - end
 
   // Functions
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let formData = new FormData(event.currentTarget);
-
-    let formObj = {};
+    const formData = new FormData(event.currentTarget);
 
     // Take the form data and transform it into an object
 
-    for (let [key, value] of Array.from(formData.entries())) {
-      formObj[key] = value.toString();
-    }
-
+    const { zipcode } = Object.fromEntries(formData.entries());
     // Return -> data address
 
-    if (formObj.zipcode === "") {
+    if (zipcode === "") {
       setTimeout(() => {
         setMessageModal("");
       }, 3 * 1000);
@@ -43,7 +38,7 @@ export default function Home() {
     }
 
     const response = await fetch(
-      `https://findyouraddress.netlify.app/api/zipcode/${formObj.zipcode}`
+      `https://findyouraddress.netlify.app/api/zipcode/${zipcode}`
     );
 
     const data = await response.json();
@@ -54,16 +49,17 @@ export default function Home() {
       setTimeout(() => {
         setMessageModal("");
       }, 3 * 1000);
+
       setMessageModal(data.message);
-      input.current.value = "";
-      input.current.focus();
       return;
     }
 
-    setDataAddress(data);
+    setDataAddress([data]);
+  };
+  useEffect(() => {
     input.current.value = "";
     input.current.focus();
-  };
+  }, [dataAddress, messageModal]);
 
   return (
     <>
@@ -92,14 +88,16 @@ export default function Home() {
         <div>
           {/* Its true? Show the data */}
 
-          {dataAddress ? (
-            <ul className={styles.list_response}>
-              <li>CEP: {dataAddress.cep}</li>
-              <li>Estado: {dataAddress.localidade}</li>
-              <li>Cidade: {dataAddress.uf}</li>
-              <li>Logradouro: {dataAddress.logradouro}</li>
-            </ul>
-          ) : null}
+          {dataAddress.map((data) => {
+            return (
+              <ul className={styles.list_response} key="list_response">
+                <li key={data.cep}>CEP: {data.cep}</li>
+                <li key={data.localidade}>Estado: {data.localidade}</li>
+                <li key={data.uf}>Cidade: {data.uf}</li>
+                <li key={data.logradouro}>Logradouro: {data.logradouro}</li>
+              </ul>
+            );
+          })}
         </div>
       </section>
     </>
