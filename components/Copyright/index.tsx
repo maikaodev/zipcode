@@ -1,6 +1,6 @@
 import styles from "../../styles/Footer.module.css";
 
-const Copyright = () => {
+export const Copyright = () => {
   return (
     <section className={styles.footer}>
       <p>Developer by @maikaodev &copy; 2022</p>
@@ -8,4 +8,4 @@ const Copyright = () => {
   );
 };
 
-export default Copyright;
+// export default Copyright;

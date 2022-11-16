@@ -1,7 +1,7 @@
 // CSS
 import styles from "../../styles/SocialMedia.module.css";
 
-const SocialMedia = () => {
+export const SocialMedia = () => {
   return (
     <nav className={styles.social_media_menu}>
       <ul className={styles.social_media_list}>
@@ -11,7 +11,7 @@ const SocialMedia = () => {
             target="_blank"
             rel="noreferrer"
           >
-            LinkedIn
+            <i className="fa-brands fa-linkedin"></i>
           </a>
         </li>
         <li>
@@ -20,13 +20,21 @@ const SocialMedia = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Github
+            <i className="fa-brands fa-square-github"></i>
           </a>
         </li>
-        <li>Gmail</li>
+        <li>
+          <a
+            href="mailto:maikao.dev@gmail.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <i className="fa-solid fa-envelope"></i>
+          </a>
+        </li>
       </ul>
     </nav>
   );
 };
 
-export default SocialMedia;
+// export default SocialMedia;
