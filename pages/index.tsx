@@ -34,15 +34,15 @@ export default function Home() {
     if (zipcode === "") {
       setTimeout(() => {
         setMessageModal("");
-      }, 3 * 1000);
+      }, 2 * 1000);
       setMessageModal("Digite um CEP válido!");
       input.current.focus();
       return;
     }
 
     const response = await fetch(
-      `https://encontreseuendereco.netlify.app/api/zipcode/${zipcode}`
-      // `http://localhost:3000/api/zipcode/${zipcode}`
+      // `https://encontreseuendereco.netlify.app/api/zipcode/${zipcode}`
+      `http://localhost:3000/api/zipcode/${zipcode}`
     );
 
     const data = await response.json();
