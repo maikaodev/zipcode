@@ -5,6 +5,9 @@ import Head from "next/head";
 // Import - CSS
 import styles from "../styles/Home.module.css";
 
+// Component
+import { Alerts } from "../components";
+
 export default function Home() {
   // Hooks
 
@@ -64,6 +67,7 @@ export default function Home() {
 
   return (
     <>
+      {/* Head */}
       <Head>
         <title>Zipcode | Localizar endereço</title>
         <meta
@@ -74,8 +78,9 @@ export default function Home() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
+      {/* Head */}
       <section className={styles.content}>
-        {messageModal ? <h1>{messageModal}</h1> : null}
+        {messageModal && <Alerts Title={messageModal} />}
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             ref={input}
@@ -83,10 +88,11 @@ export default function Home() {
             id="zipcode"
             name="zipcode"
             placeholder="Ex.: 12345-678"
+            autoFocus
           />
           <button type="submit">Buscar CEP</button>
         </form>
-        <div>
+        <div className={styles.list}>
           {/* Its true? Show the data */}
 
           {dataAddress.map((data) => {

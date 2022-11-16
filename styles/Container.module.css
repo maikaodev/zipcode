@@ -1,13 +1,11 @@
 .container {
   height: 100vh;
-}
-.container,
-.container main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .container main {
   height: 90vh;
 }

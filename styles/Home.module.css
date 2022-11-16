@@ -1,7 +1,16 @@
 .content {
-  height: 30vh;
+  height: 100%;
   width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+.list {
+  height: 130px;
+}
+
 .form,
 .list_response {
   background-color: #ffffff;
@@ -46,7 +55,7 @@
   background-color: #ffffff;
   color: #222;
 
-  padding-left: 15px;
+  padding-left: 16px;
 
   list-style: none;
 
