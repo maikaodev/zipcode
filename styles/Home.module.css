@@ -16,7 +16,7 @@
   background-color: #ffffff;
   color: #222;
   padding: 16px;
-  width: 320px;
+  width: 100%;
 }
 .form {
   display: flex;
