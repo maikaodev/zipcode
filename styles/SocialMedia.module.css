@@ -10,6 +10,9 @@
 
   font-weight: bold;
 }
+.social_media_list li a i {
+  font-size: 32px;
+}
 
 @media (min-width: 768px) {
   .social_media_menu {
