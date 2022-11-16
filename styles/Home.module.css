@@ -9,6 +9,7 @@
 }
 .list {
   height: 130px;
+  width: 100%;
 }
 
 .form,
@@ -16,9 +17,10 @@
   background-color: #ffffff;
   color: #222;
   padding: 16px;
-  width: 100%;
 }
 .form {
+  width: 100%;
+
   display: flex;
   justify-content: center;
 
