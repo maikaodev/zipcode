@@ -2,10 +2,9 @@
 
 # Upgrades
 
-- [ ] -> Responsive
-- [ ] -> Icons
+- [x] -> Responsive
+- [x] -> Icons
 - [x] -> API(serverless)
-- [ ] -> Modal
-- [ ] -> CSS
+- [x] -> Alerts
 - [x] -> Meta tags
 - [ ] -> Render when searching for the same zip code
