@@ -2,9 +2,13 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Image from "next/image";
 
 // Import - CSS
 import styles from "../styles/Home.module.css";
+
+// Image
+import LoadingImg from "../public/loading.gif";
 
 // Component
 import { Alerts } from "../components";
@@ -19,21 +23,20 @@ interface DataAddressProps {
 }
 
 // Page
-export default function Home({ data }) {
+export default function Home({ data }: { data: DataAddressProps }) {
   // Hooks
 
   // router
   const router = useRouter();
   const { zipcodeParam } = router.query;
-  console.log("DATA====> ", data);
 
   // states
   const [dataAddress, setDataAddress] = useState<DataAddressProps>(data);
   const [messageModal, setMessageModal] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // ref
   const input = useRef<HTMLInputElement>();
-
   // Hooks - end
 
   // Functions
@@ -49,34 +52,43 @@ export default function Home({ data }) {
 
     const zipcodeFormatted = zipcode.toString().replace("-", "");
 
-    if (zipcodeFormatted === zipcodeParam) return;
+    if (zipcodeFormatted === zipcodeParam) {
+      setMessageToAlert("Esse CEP acabou de ser consultado.");
+      return;
+    }
 
     if (
       zipcodeFormatted === "" ||
       zipcodeFormatted.length <= 7 ||
       zipcodeFormatted.length >= 9
     ) {
-      setTimeout(() => {
-        setMessageModal("");
-      }, 2 * 1000);
-      setMessageModal("Digite um CEP válido!");
+      setMessageToAlert("Digite um CEP válido!");
       return;
     }
 
+    setIsLoading(true);
     router.push(`/${zipcodeFormatted}`);
+    setMessageToAlert();
   };
 
-  useEffect(() => {
-    input.current.value = "";
-    input.current.focus();
-  }, [dataAddress, messageModal, zipcodeParam]);
-
-  useEffect(() => {
-    if (data.message) {
+  const setMessageToAlert = (messageToAlert?: string) => {
+    if (messageToAlert) {
       setTimeout(() => {
         setMessageModal("");
       }, 2 * 1000);
-      setMessageModal(data.message);
+      setIsLoading(false);
+      setMessageModal(messageToAlert);
+    }
+
+    // reset input
+    input.current.value = "";
+    input.current.focus();
+  };
+
+  useEffect(() => {
+    setIsLoading(false);
+    if (data.message) {
+      setMessageToAlert(data.message);
       setDataAddress({});
       return;
     }
@@ -97,7 +109,17 @@ export default function Home({ data }) {
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       {/* Head */}
+
       <section className={styles.content}>
+        {isLoading && (
+          <Image
+            className={styles.loading}
+            src={LoadingImg}
+            alt="Loading..."
+            width="200"
+            height="200"
+          />
+        )}
         {messageModal && <Alerts Title={messageModal} />}
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
@@ -107,6 +129,9 @@ export default function Home({ data }) {
             name="zipcode"
             placeholder="Ex.: 12345-678"
             autoFocus
+            onChange={(event) =>
+              (input.current.value = event.target.value.replace(/\D/g, ""))
+            }
           />
           <button type="submit">Buscar CEP</button>
         </form>
