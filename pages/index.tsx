@@ -1,5 +1,6 @@
 // Import - Functions
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 
 // Import - CSS
@@ -8,12 +9,27 @@ import styles from "../styles/Home.module.css";
 // Component
 import { Alerts } from "../components";
 
-export default function Home() {
+// Interface
+interface DataAddressProps {
+  cep: string;
+  uf: string;
+  localidade: string;
+  logradouro: string;
+  erro?: boolean;
+}
+
+// Page
+export default function Home({ data }) {
   // Hooks
 
+  // router
+  const router = useRouter();
+  const { zipcodeParam } = router.query;
+  console.log("DATA====> ", data);
+
   // states
-  const [dataAddress, setDataAddress] = useState([]);
-  const [messageModal, setMessageModal] = useState("");
+  const [dataAddress, setDataAddress] = useState<DataAddressProps>();
+  const [messageModal, setMessageModal] = useState<string>("");
 
   // ref
   const input = useRef<HTMLInputElement>();
@@ -21,7 +37,7 @@ export default function Home() {
   // Hooks - end
 
   // Functions
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -31,39 +47,40 @@ export default function Home() {
     const { zipcode } = Object.fromEntries(formData.entries());
     // Return -> data address
 
-    if (zipcode === "") {
+    const zipcodeFormatted = zipcode.toString().replace("-", "");
+
+    if (zipcodeFormatted === zipcodeParam) return;
+
+    if (
+      zipcodeFormatted === "" ||
+      zipcodeFormatted.length <= 7 ||
+      zipcodeFormatted.length >= 9
+    ) {
       setTimeout(() => {
         setMessageModal("");
       }, 2 * 1000);
       setMessageModal("Digite um CEP válido!");
-      input.current.focus();
       return;
     }
 
-    const response = await fetch(
-      `https://encontreseuendereco.netlify.app/api/zipcode/${zipcode}`
-      // `http://localhost:3000/api/zipcode/${zipcode}`
-    );
-
-    const data = await response.json();
-
-    // Make sure the data is an object with the address data
-
-    if (data.message) {
-      setTimeout(() => {
-        setMessageModal("");
-      }, 3 * 1000);
-
-      setMessageModal(data.message);
-      return;
-    }
-
-    setDataAddress([data]);
+    router.push(`/${zipcodeFormatted}`);
   };
+
   useEffect(() => {
     input.current.value = "";
     input.current.focus();
-  }, [dataAddress, messageModal]);
+  }, [dataAddress, messageModal, zipcodeParam]);
+
+  useEffect(() => {
+    if (data.erro) {
+      setTimeout(() => {
+        setMessageModal("");
+      }, 2 * 1000);
+      setMessageModal("Digite um CEP válido!");
+      return;
+    }
+    setDataAddress(data);
+  }, [zipcodeParam]);
 
   return (
     <>
@@ -95,18 +112,28 @@ export default function Home() {
         <div className={styles.list}>
           {/* Its true? Show the data */}
 
-          {dataAddress.map((data) => {
-            return (
-              <ul className={styles.list_response} key="list_response">
-                <li key={data.cep}>CEP: {data.cep}</li>
-                <li key={data.localidade}>Estado: {data.localidade}</li>
-                <li key={data.uf}>Cidade: {data.uf}</li>
-                <li key={data.logradouro}>Logradouro: {data.logradouro}</li>
-              </ul>
-            );
-          })}
+          {dataAddress && dataAddress.cep && (
+            <ul className={styles.list_response}>
+              <li key={data.cep}>CEP: {data.cep}</li>
+              <li key={data.localidade}>Estado: {data.uf}</li>
+              <li key={data.uf}>Cidade: {data.localidade}</li>
+              <li key={data.logradouro}>Logradouro: {data.logradouro}</li>
+            </ul>
+          )}
         </div>
       </section>
     </>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  //
+  if (!context.params) return { props: { data: {} } };
+
+  const { zipcodeParam } = context.params;
+
+  const response = await fetch(`https://viacep.com.br/ws/${zipcodeParam}/json`);
+  const data = await response.json();
+
+  return { props: { data } };
+};
