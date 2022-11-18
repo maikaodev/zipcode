@@ -16,7 +16,7 @@ export const SocialMedia = () => {
         </li>
         <li>
           <a
-            href="https://www.linkedin.com/in/maikaodev/"
+            href="https://github.com/maikaodev"
             target="_blank"
             rel="noreferrer"
           >
