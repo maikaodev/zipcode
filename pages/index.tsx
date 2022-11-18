@@ -11,11 +11,11 @@ import { Alerts } from "../components";
 
 // Interface
 interface DataAddressProps {
-  cep: string;
-  uf: string;
-  localidade: string;
-  logradouro: string;
-  erro?: boolean;
+  cep?: string;
+  uf?: string;
+  localidade?: string;
+  logradouro?: string;
+  message?: string;
 }
 
 // Page
@@ -28,7 +28,7 @@ export default function Home({ data }) {
   console.log("DATA====> ", data);
 
   // states
-  const [dataAddress, setDataAddress] = useState<DataAddressProps>();
+  const [dataAddress, setDataAddress] = useState<DataAddressProps>(data);
   const [messageModal, setMessageModal] = useState<string>("");
 
   // ref
@@ -72,15 +72,16 @@ export default function Home({ data }) {
   }, [dataAddress, messageModal, zipcodeParam]);
 
   useEffect(() => {
-    if (data.erro) {
+    if (data.message) {
       setTimeout(() => {
         setMessageModal("");
       }, 2 * 1000);
-      setMessageModal("Digite um CEP válido!");
+      setMessageModal(data.message);
+      setDataAddress({});
       return;
     }
     setDataAddress(data);
-  }, [zipcodeParam]);
+  }, [data]);
 
   return (
     <>
@@ -132,7 +133,10 @@ export const getServerSideProps = async (context) => {
 
   const { zipcodeParam } = context.params;
 
-  const response = await fetch(`https://viacep.com.br/ws/${zipcodeParam}/json`);
+  const response = await fetch(
+    `https://encontreseuendereco.netlify.app/api/zipcode/${zipcodeParam}`
+    // `http://localhost:3000/api/zipcode/${zipcodeParam}`
+  );
   const data = await response.json();
 
   return { props: { data } };
