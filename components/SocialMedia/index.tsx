@@ -10,6 +10,7 @@ export const SocialMedia = () => {
             href="https://www.linkedin.com/in/maikaodev/"
             target="_blank"
             rel="noreferrer"
+            title="LinkedIn"
           >
             <i className="fa-brands fa-linkedin"></i>
           </a>
@@ -19,6 +20,7 @@ export const SocialMedia = () => {
             href="https://github.com/maikaodev"
             target="_blank"
             rel="noreferrer"
+            title="Github"
           >
             <i className="fa-brands fa-square-github"></i>
           </a>
@@ -28,6 +30,7 @@ export const SocialMedia = () => {
             href="mailto:maikao.dev@gmail.com"
             target="_blank"
             rel="noreferrer"
+            title="Gmail"
           >
             <i className="fa-solid fa-envelope"></i>
           </a>
