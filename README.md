@@ -7,4 +7,5 @@
 - [x] -> API(serverless)
 - [x] -> Alerts
 - [x] -> Meta tags
-- [ ] -> Render when searching for the same zip code
+- [x] -> Render when looking for the same zip code
+- [ ] -> Tests
