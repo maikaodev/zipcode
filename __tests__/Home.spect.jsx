@@ -1,5 +1,5 @@
 import mockRouter from "next-router-mock";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { createDynamicRouteParser } from "next-router-mock/dynamic-routes";
 import "@testing-library/jest-dom/extend-expect";
 
@@ -11,10 +11,11 @@ jest.mock("next/router", () => require("next-router-mock"));
 
 mockRouter.useParser(createDynamicRouteParser(["/[zipcodeParam]"]));
 
-describe("Home", () => {
+describe("Home page", () => {
   //
   it("should be a form", () => {
-    const { getByTestId } = render(<Home data={{}} />);
+    //render
+    const { getByTestId } = render(<Home />);
 
     // Elements
     const form = getByTestId("form_zipcode");
@@ -23,38 +24,35 @@ describe("Home", () => {
 
     // Assert
     expect(form).toBeInTheDocument();
-    expect(input).toContainElement(input);
-    expect(button).toContainElement(button);
+    expect(form).toContainElement(input);
+    expect(form).toContainElement(button);
+
+    expect(input).toBeEnabled();
+    expect(button).toHaveAttribute("type", "submit");
   });
 
   it("should be a valid zip code", async () => {
-    const { getByTestId } = render(<Home data={{}} />);
+    //render
+    const { getByTestId } = render(<Home />);
 
     // Elements
     const input = getByTestId("input_zipcode");
 
-    // Events
-    const input_values = [
-      "aaaaabbccdd",
-      "aaabb123132ccdd",
-      "????@@@@$$%%%",
-      "(⌐□_□)",
-      "💫",
-      "❗",
-    ];
-
-    // TODO: Verificar a modal
+    // Mock -> values
+    const input_values = ["aaaaabbccdd", "????@@@@$$%%%", "(⌐□_□)", "💫", "❗"];
 
     input_values.forEach((value) => {
+      //
       fireEvent.change(input, { target: { value: value } });
-    });
 
-    // Assert
-    expect(input).toHaveValue("");
+      // Assert
+      expect(input).toHaveValue("");
+    });
   });
 
   it("should become a parameter", async () => {
-    const { getByTestId } = render(<Home data={{}} />);
+    //
+    const { getByTestId } = render(<Home />);
 
     // Elements
     const input = getByTestId("input_zipcode");
@@ -70,13 +68,45 @@ describe("Home", () => {
       query: { zipcodeParam: "57015040" },
     });
   });
-});
 
-/* 
-{
-  cep: "57015040",
-  uf: "AL",
-  localidade: "Maceió",
-  logradouro: "1° Travessa Costa Nabal",
-} 
-*/
+  it("should be sent an alert to the user", async () => {
+    // render
+    const { getByTestId } = render(<Home />);
+
+    // Elements
+    const input = getByTestId("input_zipcode");
+    const button = getByTestId("button_zipcode");
+
+    // Mock -> values
+    const input_values = ["1234567", "12345678", "66666666"];
+
+    input_values.forEach((value) => {
+      fireEvent.change(input, { target: { value } });
+      fireEvent.click(button);
+
+      expect(screen.getByTestId("modal")).toBeInTheDocument();
+      expect(screen.getByTestId("modal")).toHaveTextContent(
+        "Digite um CEP válido!"
+      );
+    });
+  });
+
+  it("should be a good request", async () => {
+    // Mock -> data
+    const data = {
+      cep: "57073-541",
+      logradouro: "1ª Travessa Costa Nabal",
+      localidade: "Maceió",
+      uf: "AL",
+    };
+
+    // render
+    render(<Home data={data} />);
+
+    // Assert
+    expect(screen.getByText(`CEP: ${data.cep}`));
+    expect(screen.getByText(`Estado: ${data.uf}`));
+    expect(screen.getByText(`Cidade: ${data.localidade}`));
+    expect(screen.getByText(`Logradouro: ${data.logradouro}`));
+  });
+});
