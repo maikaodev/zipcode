@@ -120,20 +120,28 @@ export default function Home({ data }: { data: DataAddressProps }) {
             height="200"
           />
         )}
-        {messageModal && <Alerts Title={messageModal} />}
-        <form onSubmit={handleSubmit} className={styles.form}>
+        {messageModal && <Alerts data-testid="modal" Title={messageModal} />}
+        <form
+          onSubmit={handleSubmit}
+          className={styles.form}
+          data-testid="form_zipcode"
+        >
           <input
             ref={input}
             type="text"
             id="zipcode"
             name="zipcode"
             placeholder="Ex.: 12345-678"
-            autoFocus
             onChange={(event) =>
               (input.current.value = event.target.value.replace(/\D/g, ""))
             }
+            data-testid="input_zipcode"
+            autoFocus
+            required
           />
-          <button type="submit">Buscar CEP</button>
+          <button data-testid="button_zipcode" type="submit">
+            Buscar CEP
+          </button>
         </form>
         <div className={styles.list}>
           {/* Its true? Show the data */}
