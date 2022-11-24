@@ -82,8 +82,6 @@ export default function Home({ data = {} }: { data: DataAddressProps }) {
   };
 
   useEffect(() => {
-    console.log("[CLIENT SIDE]=========>", data);
-
     setIsLoading(false);
     if (data.message) {
       return setMessageToAlert(data.message);

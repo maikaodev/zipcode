@@ -4,7 +4,8 @@ import { createDynamicRouteParser } from "next-router-mock/dynamic-routes";
 import "@testing-library/jest-dom/extend-expect";
 
 // Component
-import Home from "../pages";
+import Home from "../src/pages";
+import { getServerSideProps } from "../src/pages/[zipcodeParam]";
 
 // Mock Router
 jest.mock("next/router", () => require("next-router-mock"));
@@ -108,5 +109,34 @@ describe("Home page", () => {
     expect(screen.getByText(`Estado: ${data.uf}`));
     expect(screen.getByText(`Cidade: ${data.localidade}`));
     expect(screen.getByText(`Logradouro: ${data.logradouro}`));
+  });
+  it("should be a good request with api mocked", async () => {
+    const result = await getServerSideProps({
+      params: { zipcodeParam: "57000001" },
+    });
+
+    expect(result.props.data.cep).toEqual("57000001");
+    expect(result.props.data.street).toEqual("Rua Pantera Negra");
+    expect(result.props.data.state).toEqual("Wakanda");
+    expect(result.props.data.city).toEqual("Wakanda");
+  });
+
+  it("should be a good request with api mocked, but the zip code was not found", async () => {
+    const result = await getServerSideProps({
+      params: { zipcodeParam: "12345678" },
+    });
+
+    console.log("[PROP MESSAGE] =======> ", result.props.data.message);
+    expect(result.props.data.message).toEqual("Digite um CEP válido!");
+  });
+  it("should be a bad request with api mocked", async () => {
+    const result = await getServerSideProps({
+      params: { zipcodeParam: "87654321" },
+    });
+
+    console.log("[PROP MESSAGE] =======> ", result.props.data.message);
+    expect(result.props.data.message).toEqual(
+      "Ocorreu um erro inesperado, tente novamente mais tarde!"
+    );
   });
 });

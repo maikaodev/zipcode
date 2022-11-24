@@ -2,15 +2,15 @@ import { GetServerSideProps } from "next";
 import { DataAddressProps } from "../";
 export { default } from "../index";
 
+export interface DataRequestProps extends DataAddressProps {
+  erro?: boolean;
+}
+
 export const getServerSideProps: GetServerSideProps = async ({
   params: { zipcodeParam },
 }) => {
   //
   if (!zipcodeParam) return { props: { data: {} } };
-
-  interface DataRequestProps extends DataAddressProps {
-    erro?: boolean;
-  }
 
   let data = {} as DataRequestProps;
 
