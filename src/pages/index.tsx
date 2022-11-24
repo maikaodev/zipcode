@@ -14,7 +14,7 @@ import LoadingImg from "../public/loading.gif";
 import { Alerts } from "../components";
 
 // Interface
-interface DataAddressProps {
+export interface DataAddressProps {
   cep?: string;
   uf?: string;
   localidade?: string;
@@ -75,21 +75,20 @@ export default function Home({ data = {} }: { data: DataAddressProps }) {
       setTimeout(() => {
         setMessageModal("");
       }, 2 * 1000);
-      setIsLoading(false);
       setMessageModal(messageToAlert);
     }
-
-    // reset input
     input.current.value = "";
     input.current.focus();
   };
 
   useEffect(() => {
+    console.log("[CLIENT SIDE]=========>", data);
+
     setIsLoading(false);
     if (data.message) {
-      setMessageToAlert(data.message);
-      return;
+      return setMessageToAlert(data.message);
     }
+    return setMessageToAlert();
   }, [data]);
 
   return (
@@ -165,18 +164,3 @@ export default function Home({ data = {} }: { data: DataAddressProps }) {
     </>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  //
-  if (!context.params) return { props: { data: {} } };
-
-  const { zipcodeParam } = context.params;
-
-  const response = await fetch(
-    `https://encontreseuendereco.netlify.app/api/zipcode/${zipcodeParam}`
-    // `http://localhost:3000/api/zipcode/${zipcodeParam}`
-  );
-  const data = await response.json();
-
-  return { props: { data } };
-};
