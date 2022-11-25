@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -21,7 +21,7 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": [
-        "components/*"
+        "src/components/*"
       ],
       "@/pages/*": [
         "pages/*"
@@ -35,7 +35,15 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "types.d.ts"
+    "types.d.ts",
+    "jest.config.js",
+    "jest.config.js",
+    "jest.setup.js",
+    "jest.setup.js",
+    "__tests__/zipcodeParam.spec.jsx",
+    "__tests__/zipcodeParam.spec.jsx",
+    "__tests__/Home.spec.jsx",
+    "__tests__/Home.spec.jsx"
   ],
   "exclude": [
     "node_modules"

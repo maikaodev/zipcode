@@ -4,7 +4,7 @@ import { Copyright } from "../Copyright";
 
 import styles from "../../styles/Container.module.css";
 
-const Container = ({ children }) => {
+export const Container = ({ children }) => {
   return (
     <div className={styles.container}>
       <main>{children}</main>
@@ -15,4 +15,3 @@ const Container = ({ children }) => {
     </div>
   );
 };
-export default Container;

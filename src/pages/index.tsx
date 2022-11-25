@@ -1,5 +1,5 @@
 // Import - Functions
-import { useState, useEffect, useRef, FormEvent } from "react";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import LoadingImg from "../public/loading.gif";
 import { Alerts } from "../components";
 
 // Interface
-interface DataAddressProps {
+export interface DataAddressProps {
   cep?: string;
   uf?: string;
   localidade?: string;
@@ -23,7 +23,7 @@ interface DataAddressProps {
 }
 
 // Page
-export default function Home({ data }: { data: DataAddressProps }) {
+export default function Home({ data = {} }: { data: DataAddressProps }) {
   // Hooks
 
   // router
@@ -31,7 +31,6 @@ export default function Home({ data }: { data: DataAddressProps }) {
   const { zipcodeParam } = router.query;
 
   // states
-  const [dataAddress, setDataAddress] = useState<DataAddressProps>(data);
   const [messageModal, setMessageModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -76,11 +75,8 @@ export default function Home({ data }: { data: DataAddressProps }) {
       setTimeout(() => {
         setMessageModal("");
       }, 2 * 1000);
-      setIsLoading(false);
       setMessageModal(messageToAlert);
     }
-
-    // reset input
     input.current.value = "";
     input.current.focus();
   };
@@ -88,11 +84,9 @@ export default function Home({ data }: { data: DataAddressProps }) {
   useEffect(() => {
     setIsLoading(false);
     if (data.message) {
-      setMessageToAlert(data.message);
-      setDataAddress({});
-      return;
+      return setMessageToAlert(data.message);
     }
-    setDataAddress(data);
+    return setMessageToAlert();
   }, [data]);
 
   return (
@@ -120,7 +114,7 @@ export default function Home({ data }: { data: DataAddressProps }) {
             height="200"
           />
         )}
-        {messageModal && <Alerts data-testid="modal" Title={messageModal} />}
+        {messageModal && <Alerts Title={messageModal} />}
         <form
           onSubmit={handleSubmit}
           className={styles.form}
@@ -131,6 +125,7 @@ export default function Home({ data }: { data: DataAddressProps }) {
             type="text"
             id="zipcode"
             name="zipcode"
+            maxLength={8}
             placeholder="Ex.: 12345-678"
             onChange={(event) =>
               (input.current.value = event.target.value.replace(/\D/g, ""))
@@ -146,12 +141,20 @@ export default function Home({ data }: { data: DataAddressProps }) {
         <div className={styles.list}>
           {/* Its true? Show the data */}
 
-          {dataAddress && dataAddress.cep && (
-            <ul className={styles.list_response}>
-              <li key={data.cep}>CEP: {data.cep}</li>
-              <li key={data.localidade}>Estado: {data.uf}</li>
-              <li key={data.uf}>Cidade: {data.localidade}</li>
-              <li key={data.logradouro}>Logradouro: {data.logradouro}</li>
+          {data && data.cep && (
+            <ul className={styles.list_response} data-testid="list_request">
+              <li key={data.cep} data-testid="item_request_zipcode">
+                CEP: {data.cep}
+              </li>
+              <li key={data.localidade} data-testid="item_request_state">
+                Estado: {data.uf}
+              </li>
+              <li key={data.uf} data-testid="item_request_city">
+                Cidade: {data.localidade}
+              </li>
+              <li key={data.logradouro} data-testid="item_request_street">
+                Logradouro: {data.logradouro}
+              </li>
             </ul>
           )}
         </div>
@@ -159,18 +162,3 @@ export default function Home({ data }: { data: DataAddressProps }) {
     </>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  //
-  if (!context.params) return { props: { data: {} } };
-
-  const { zipcodeParam } = context.params;
-
-  const response = await fetch(
-    `https://encontreseuendereco.netlify.app/api/zipcode/${zipcodeParam}`
-    // `http://localhost:3000/api/zipcode/${zipcodeParam}`
-  );
-  const data = await response.json();
-
-  return { props: { data } };
-};
