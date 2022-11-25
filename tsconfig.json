@@ -39,7 +39,11 @@
     "jest.config.js",
     "jest.config.js",
     "jest.setup.js",
-    "jest.setup.js"
+    "jest.setup.js",
+    "__tests__/zipcodeParam.spec.jsx",
+    "__tests__/zipcodeParam.spec.jsx",
+    "__tests__/Home.spec.jsx",
+    "__tests__/Home.spec.jsx"
   ],
   "exclude": [
     "node_modules"

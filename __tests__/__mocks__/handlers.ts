@@ -4,14 +4,6 @@ export const handlers = [
   rest.get("https://viacep.com.br/ws/:zipcode/json", async (req, res, ctx) => {
     const { zipcode } = req.params;
 
-    if (zipcode === "12345678") {
-      return res(
-        ctx.status(200),
-        ctx.json({
-          message: "Digite um CEP válido!",
-        })
-      );
-    }
     if (zipcode === "57000001") {
       return res(
         ctx.status(200),
@@ -20,6 +12,14 @@ export const handlers = [
           street: "Rua Pantera Negra",
           state: "Wakanda",
           city: "Wakanda",
+        })
+      );
+    }
+    if (zipcode === "12345678") {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          erro: true,
         })
       );
     }
