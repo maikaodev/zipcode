@@ -8,6 +8,7 @@
 - [x] -> Alerts
 - [x] -> Meta tags
 - [x] -> Render when looking for the same zip code
-- [ ] -> Tests
+- [x] -> Tests
   - [x] -> Testing Library
-  - [ ] -> Cypress
+  - [x] -> Cypress
+- [x] -> Block invalid zip code in the url
