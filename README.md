@@ -8,4 +8,8 @@
 - [x] -> Alerts
 - [x] -> Meta tags
 - [x] -> Render when looking for the same zip code
-- [ ] -> Tests
+- [x] -> Tests
+  - [x] -> Testing Library
+  - [x] -> Cypress
+- [x] -> Block invalid zip code in the url
+- [ ] -> Run tests in pull request with github actions

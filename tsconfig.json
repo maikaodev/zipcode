@@ -15,7 +15,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
@@ -29,7 +29,11 @@
       "@/styles/*": [
         "styles/*"
       ]
-    }
+    },
+    "types": [
+      "cypress",
+      "@testing-library/cypress"
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -43,7 +47,8 @@
     "__tests__/zipcodeParam.spec.jsx",
     "__tests__/zipcodeParam.spec.jsx",
     "__tests__/Home.spec.jsx",
-    "__tests__/Home.spec.jsx"
+    "__tests__/Home.spec.jsx",
+    "cypress/e2e/Home.cy.js"
   ],
   "exclude": [
     "node_modules"
