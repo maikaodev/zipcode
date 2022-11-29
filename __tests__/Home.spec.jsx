@@ -49,6 +49,10 @@ describe("Home page", () => {
       // Assert
       expect(input).toHaveValue("");
     });
+
+    fireEvent.change(input, { target: { value: "a2bc6645" } });
+
+    expect(input).toHaveValue("26645");
   });
 
   it("should become a parameter", async () => {

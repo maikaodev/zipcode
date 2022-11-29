@@ -12,3 +12,4 @@
   - [x] -> Testing Library
   - [x] -> Cypress
 - [x] -> Block invalid zip code in the url
+- [ ] -> Run tests in pull request with github actions
