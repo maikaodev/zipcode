@@ -33,7 +33,6 @@ https://www.linkedin.com/in/maikaodev/
 
 - [React.js](https://pt-br.reactjs.org/);
 - [Next.js](https://nextjs.org/);
-- [Jest](https://jestjs.io/pt-BR/);
 - [Testing Library](https://testing-library.com/);
 - [Cypress](https://www.cypress.io/);
 - [Jest](https://jestjs.io/pt-BR/);
