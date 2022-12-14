@@ -1,6 +1,46 @@
 # ZIPCODE
 
-# Upgrades
+## Menu
+
+- [Descrição](#Descrição)
+- [Deploy](#Deploy)
+- [Linkedin](#Linkedin)
+- [Aprendizados](#Aprendizados)
+- [Tecnologias](#Tecnologias)
+- [Upgrades](#Upgrades)
+
+### Deploy
+
+https://encontreseuendereco.netlify.app/
+
+### Linkedin
+
+https://www.linkedin.com/in/maikaodev/
+
+### Descrição
+
+- Projeto desenvolvido para consultar dados do endereço através do CEP.
+
+### Aprendizados
+
+- Mock;
+- Testes unitários;
+- Serverless;
+- SSR;
+- CSS modules.
+
+### Tecnologias
+
+- [React.js](https://pt-br.reactjs.org/);
+- [Next.js](https://nextjs.org/);
+- [Jest](https://jestjs.io/pt-BR/);
+- [Testing Library](https://testing-library.com/);
+- [Cypress](https://www.cypress.io/);
+- [Jest](https://jestjs.io/pt-BR/);
+- [MSW](https://mswjs.io/);
+- [TypeScript](https://www.typescriptlang.org/);
+
+### Upgrades
 
 - [x] -> Responsive
 - [x] -> Icons
